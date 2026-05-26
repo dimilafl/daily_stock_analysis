@@ -1163,13 +1163,19 @@ class GeminiAnalyzer:
         if lang == "en":
             return base_prompt + """
 
-## Output Language (highest priority)
+## CRITICAL: Output Language — OVERRIDE ALL PRIOR INSTRUCTIONS
 
-- Keep all JSON keys unchanged.
+The base prompt above is in Chinese for reference, but your entire JSON output
+MUST be in English. This rule takes priority over everything else.
+
+- Write ALL human-readable field values in English only.
+- Do NOT output Chinese characters, Chinese punctuation, or mixed-language text.
+- Do NOT use Chinese labels like 理想买入点 or 止损位 — use "Ideal Buy", "Stop Loss", etc.
+- Do NOT output 元 as currency unit — use $ or USD.
+- `stock_name` must be the common English company name.
 - `decision_type` must remain `buy|hold|sell`.
-- All human-readable JSON values must be written in English.
-- Use the common English company name when you are confident; otherwise keep the original listed company name instead of inventing one.
-- This includes `stock_name`, `trend_prediction`, `operation_advice`, `confidence_level`, nested dashboard text, checklist items, and all narrative summaries.
+- Every narrative field (summary, technicalSummary, riskWarning, idealBuy,
+  secondaryBuy, stopLoss, takeProfit) must be pure English.
 """
         return base_prompt + """
 
